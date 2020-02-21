@@ -1,0 +1,26 @@
+version: "3.4"
+
+services:
+  miservicio_mysqlxavi:
+    build:
+      context: ./MySql
+    volumes:
+      - mysql-xavi-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: formacionXavi
+
+  miservicio_phpxavi:
+    build:
+      context: ./ApachePhp
+    volumes:
+      - ./../:/var/www/html
+    links:
+      - miservicio_mysqlxavi:miservicio_mysqlxavi
+    ports:
+      - 80:80
+
+volumes:
+  mysql-xavi-data:
